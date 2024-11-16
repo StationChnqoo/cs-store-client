@@ -1,85 +1,51 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView, useRouter } from "vue-router";
+import HelloWorld from "./components/HelloWorld.vue";
+import { Carousel, TabPane, Tabs } from "ant-design-vue";
+import { onMounted, ref } from "vue";
+import type { Key } from "ant-design-vue/es/table/interface";
+
+const router = useRouter();
+const currentTab = ref("home");
+const tabs = ref([
+  { label: "首页", key: "home", path: "/" },
+  { label: "作业代写", key: "work", path: "/work" },
+  { label: "代写价格", key: "price", path: "/price" },
+  { label: "服务流程", key: "process", path: "/process" },
+  { label: "联系我们", key: "contact", path: "/contact" },
+]);
+const onTabPress = (key: Key) => {
+  let item = tabs.value.find((it) => it.key == key);
+  currentTab.value = key as string;
+  console.log(item?.path);
+  router.push(item?.path as string);
+};
+
+onMounted(() => {
+  // router.push("/home");
+});
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="main">
+    <div class="header">
+      <img src="@/assets/csdx.png" style="width: 128px; height: 64px" />
+      <Tabs v-model:activeKey="currentTab" @change="onTabPress">
+        <TabPane v-for="(tab, index) in tabs" :key="tab.key" :tab="tab.label" />
+      </Tabs>
     </div>
-  </header>
-
-  <RouterView />
+    <RouterView />
+  </div>
 </template>
-
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
+.main {
+  height: 100%;
   width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
+  .header {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 24px;
   }
 }
 </style>
