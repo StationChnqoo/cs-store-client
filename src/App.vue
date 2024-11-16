@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRouter } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
-import { Carousel, TabPane, Tabs } from "ant-design-vue";
 import { onMounted, ref } from "vue";
-import type { Key } from "ant-design-vue/es/table/interface";
+import { RouterView, useRouter } from "vue-router";
 
 const router = useRouter();
 const currentTab = ref("home");
@@ -14,7 +11,7 @@ const tabs = ref([
   { label: "服务流程", key: "process", path: "/process" },
   { label: "联系我们", key: "contact", path: "/contact" },
 ]);
-const onTabPress = (key: Key) => {
+const onTabPress = (key: string) => {
   let item = tabs.value.find((it) => it.key == key);
   currentTab.value = key as string;
   console.log(item?.path);
@@ -30,9 +27,15 @@ onMounted(() => {
   <div class="main">
     <div class="header">
       <img src="@/assets/csdx.png" style="width: 128px; height: 64px" />
-      <Tabs v-model:activeKey="currentTab" @change="onTabPress">
-        <TabPane v-for="(tab, index) in tabs" :key="tab.key" :tab="tab.label" />
-      </Tabs>
+      <div>
+        <n-tabs type="line" animated @update-value="onTabPress">
+          <n-tab-pane
+            v-for="(tab, index) in tabs"
+            :name="tab.key"
+            :tab="tab.label"
+          />
+        </n-tabs>
+      </div>
     </div>
     <RouterView />
   </div>
@@ -43,9 +46,12 @@ onMounted(() => {
   width: 100%;
   .header {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     padding: 0 24px;
+    :deep(.n-tab-pane) {
+      padding: 0;
+    }
   }
 }
 </style>
