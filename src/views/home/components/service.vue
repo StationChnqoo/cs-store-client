@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import Grouper from "./grouper.vue";
 
 const datas = ref([
   // {
@@ -36,6 +37,7 @@ const datas = ref([
 </script>
 <template>
   <div class="home-service">
+    <Grouper title="同学们最喜欢的业务" message="可靠，守时，100%退款保证" />
     <div class="items-pc">
       <div
         v-for="(item, index) in datas"

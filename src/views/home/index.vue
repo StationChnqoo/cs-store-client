@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Service from "./components/service.vue";
+import Steps from "./components/steps.vue";
 </script>
 <template>
   <div class="page">
     <Service />
+    <div style="height: 24px" />
+    <Steps />
+    <div style="height: 24px" />
     <!-- <div style="height: 16px" />
     <n-card
       title="留学生计算机科学代写概述"
